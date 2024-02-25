@@ -1,0 +1,38 @@
+name: Continuous Integration for CLI
+
+on:
+  push:
+    branches:
+      - main
+      - 'dev/*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        jdk: [17]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: ${{ matrix.jdk }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Run unit tests
+        run: ./gradlew test
+    
