@@ -2,15 +2,9 @@ package hse.cli.commands;
 
 import java.io.*;
 
-public class CatCommand implements Runnable {
-    private final String[] arguments;
-    private final PipedInputStream input;
-    private final PipedOutputStream output;
-
+public class CatCommand extends AbstractCommand {
     public CatCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
-        this.arguments = args;
-        this.input  = input;
-        this.output = output;
+        super(args, input, output);
     }
 
     @Override

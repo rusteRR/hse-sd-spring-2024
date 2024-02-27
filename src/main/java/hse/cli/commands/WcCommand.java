@@ -2,19 +2,14 @@ package hse.cli.commands;
 
 import java.io.*;
 
-public class WcCommand implements Runnable {
-    private final String[] arguments;
-    private final PipedInputStream input;
-    private final PipedOutputStream output;
+public class WcCommand extends AbstractCommand{
 
     private int bytes = 0;
     private int lines = 0;
     private int words = 0;
 
     public WcCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
-        this.arguments = args;
-        this.input  = input;
-        this.output = output;
+        super(args, input, output);
     }
 
     @Override

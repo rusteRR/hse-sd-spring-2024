@@ -6,15 +6,10 @@ import java.io.PipedOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class PwdCommand implements Runnable {
-    private final String[] arguments;
-    private final PipedInputStream input;
-    private final PipedOutputStream output;
+public class PwdCommand extends AbstractCommand{
 
     public PwdCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
-        this.arguments = args;
-        this.input  = input;
-        this.output = output;
+        super(args, input, output);
     }
 
     @Override
