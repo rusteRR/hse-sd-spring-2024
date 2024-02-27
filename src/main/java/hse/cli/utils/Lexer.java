@@ -2,25 +2,14 @@ package hse.cli.utils;
 
 import java.io.*;
 
-public class Lexer implements Runnable {
-    private final String[] args;
-    private final PipedInputStream input;
-    private final PipedOutputStream output;
+public class Lexer {
+    public Lexer() {}
 
-    public Lexer(String args, PipedInputStream input, PipedOutputStream output) {
-        this.args = args;
-        this.input  = input;
-        this.output = output;
-    }
-
-    @Override
-    public void run() {
-        lex();
-    }
-
-    private void lex() {
+    public static List<Token> lex(String input) {
         try {
-            return;
+            List<Token> result = new ArrayList<Token>();
+            
+            return result;
         } catch (IOException e) {
             System.err.println("Exception during lexical analysys: " + e.getMessage());
         }
