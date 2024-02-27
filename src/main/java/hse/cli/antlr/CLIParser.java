@@ -1,6 +1,6 @@
 // Generated from CLI.g4 by ANTLR 4.13.1
 
-   package hse.cli;
+package hse.cli.antlr;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
