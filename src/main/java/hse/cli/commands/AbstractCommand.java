@@ -14,12 +14,17 @@ public abstract class AbstractCommand implements Runnable {
         this.input  = input;
         this.output = output;
     }
-
     public void setInputStream(PipedInputStream newInput) {
         this.input = newInput;
     }
 
     public void setOutputStream(PipedOutputStream newOutput) {
         this.output = newOutput;
+    }
+    protected abstract int execute();
+
+    @Override
+    public void run() {
+        execute();
     }
 }

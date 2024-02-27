@@ -11,14 +11,16 @@ public class EchoCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() {
+    public int execute() {
         try {
             for (String arg : arguments) {
                 output.write(arg.getBytes());
             }
-            output.close();
+            output.write('\n');
         } catch (IOException e) {
             System.err.println("Exception during writing to pipe: " + e.getMessage());
+            return 1;
         }
+        return 0;
     }
 }

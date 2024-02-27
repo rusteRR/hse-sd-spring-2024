@@ -10,7 +10,11 @@ public class ExitCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() {
+    protected int execute() {
+        // TODO: we need to say interpreter to shutdown either do not execute this as individual command
+        // just exiting is bad idea
         System.exit(0);
+        return 0;
     }
+
 }
