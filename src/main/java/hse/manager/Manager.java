@@ -9,6 +9,17 @@ import hse.cli.commands.AbstractCommand;
 
 public class Manager {
     private static ThreadPoolExecutor executor;
+
+    public static void shutDown() {
+        if (executor != null) {
+            executor.shutdownNow();
+        }
+    }
+
+    public static void startThreadPool() {
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
+    }
+
     public static InputStream startPipeline(List<AbstractCommand> commands) throws IOException {
         PipedInputStream previousInput = null;
 
@@ -27,15 +38,5 @@ public class Manager {
         }
 
         return previousInput;
-    }
-
-    public static void shutDown() {
-        if (executor != null) {
-            executor.shutdownNow();
-        }
-    }
-
-    public static void startThreadPool() {
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
     }
 }
