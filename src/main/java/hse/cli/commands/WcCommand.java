@@ -65,9 +65,9 @@ public class WcCommand extends AbstractCommand {
     }
 
     private static class Counts {
-        public int lines;
-        public int words;
-        public int bytes;
+        public int lines = 0;
+        public int words = 0;
+        public int bytes = 0;
 
         public void add(Counts other) {
             lines += other.lines;
