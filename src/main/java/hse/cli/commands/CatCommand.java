@@ -2,49 +2,42 @@ package hse.cli.commands;
 
 import java.io.*;
 
-public class CatCommand implements Runnable {
-    private final String[] arguments;
-    private final PipedInputStream input;
-    private final PipedOutputStream output;
+public class CatCommand extends AbstractCommand {
 
     public CatCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
-        this.arguments = args;
-        this.input  = input;
-        this.output = output;
+        super(args, input, output);
     }
 
     @Override
-    public void run() {
+    public int execute() {
+        boolean failed = false;
         if (arguments.length == 0) {
-            readFromPipe();
+            try {
+                processStream(input);
+            } catch (IOException e) {
+                failed = true;
+                System.err.println("Exception during processing input: " + e.getMessage());
+            }
         } else {
-            readFile();
+            for (String arg : arguments) {
+                try (InputStream stream = new FileInputStream(arg)) {
+                    processStream(stream);
+                } catch (IOException e) {
+                    failed = true;
+                    System.err.println("Exception during processing arguments: " + e.getMessage());
+                }
+            }
         }
+        return failed ? 1 : 0;
     }
 
-    private void readFromPipe() {
-        try {
-            int data = input.read();
-            while (data != -1){
-                output.write(data);
-                data = input.read();
-            }
-            output.close();
-        } catch (IOException e) {
-            System.err.println("Exception during writing to pipe: " + e.getMessage());
-        }
-    }
 
-    private void readFile() {
-        try (FileInputStream fileInputStream = new FileInputStream(arguments[0])) {
-            int data;
-            while ((data = fileInputStream.read()) != -1) {
-                output.write(data);
-            }
-            output.close();
-        } catch (IOException e) {
-            System.err.println("Exception during writing to pipe: " + e.getMessage());
+    private void processStream(InputStream stream) throws IOException {
+        int data;
+        while ((data = stream.read()) != -1) {
+            output.write(data);
         }
+        output.write('\n');
     }
 
 }

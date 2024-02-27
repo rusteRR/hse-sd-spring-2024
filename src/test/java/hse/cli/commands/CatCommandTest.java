@@ -36,6 +36,6 @@ class CatCommandTest {
         } catch (IOException ignored) {
         }
 
-        assertEquals("aaaaaaaaaa", builder.toString());
+        assertEquals("aaaaaaaaaa\n", builder.toString());
     }
 }

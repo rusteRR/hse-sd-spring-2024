@@ -2,79 +2,82 @@ package hse.cli.commands;
 
 import java.io.*;
 
-public class WcCommand implements Runnable {
-    private final String[] arguments;
-    private final PipedInputStream input;
-    private final PipedOutputStream output;
-
-    private int bytes = 0;
-    private int lines = 0;
-    private int words = 0;
+public class WcCommand extends AbstractCommand {
 
     public WcCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
-        this.arguments = args;
-        this.input  = input;
-        this.output = output;
+        super(args, input, output);
     }
 
     @Override
-    public void run() {
+    protected int execute() {
+        boolean failed = false;
         if (arguments.length == 0) {
-            readFromPipe();
+            try {
+                output.write((processStream(input) + "\n").getBytes());
+            } catch (IOException e) {
+                failed = true;
+                System.err.println("Exception during processing input: " + e.getMessage());
+            }
         } else {
-            readFile();
+            Counts total = new Counts();
+            for (String arg : arguments) {
+                try (InputStream stream = new FileInputStream(arg)) {
+                    Counts curr = processStream(stream);
+                    output.write((curr + String.format(" %s\n", arg)).getBytes());
+                    total.add(curr);
+                } catch (IOException e) {
+                    failed = true;
+                    System.err.println("Exception during processing arguments: " + e.getMessage());
+                }
+            }
+            if (arguments.length > 1) {
+                try {
+                    output.write((total + " total\n").getBytes());
+                } catch (IOException e) {
+                    failed = true;
+                    System.err.println("Exception during processing arguments: " + e.getMessage());
+                }
+            }
         }
+        return failed ? 1 : 0;
     }
 
-    private void readFromPipe() {
+    private Counts processStream(InputStream stream) throws IOException {
+        Counts counts = new Counts();
+        int data = stream.read();
         boolean isPrevSpace = true;
-        try {
-            int data = input.read();
-            while (data != -1){
-                bytes++;
-                if (Character.isWhitespace(data)) {
-                    if (!isPrevSpace) {
-                        words++;
-                    }
-                    isPrevSpace = true;
-                } else {
-                    isPrevSpace = false;
+        while (data != -1) {
+            counts.bytes++;
+            if (Character.isWhitespace(data)) {
+                if (!isPrevSpace) {
+                    counts.words++;
                 }
-                if ((char) data == '\n') {
-                    lines++;
-                }
-                data = input.read();
+                isPrevSpace = true;
+            } else {
+                isPrevSpace = false;
             }
-            dumpResults();
-            output.close();
-        } catch (IOException e) {
-            System.err.println("Exception during writing to pipe: " + e.getMessage());
+            if ((char) data == '\n') {
+                counts.lines++;
+            }
+            data = stream.read();
         }
+        return counts;
     }
 
-    private void readFile() {
-        try {
-            FileReader fileReader = new FileReader(arguments[0]);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+    private static class Counts {
+        public int lines;
+        public int words;
+        public int bytes;
 
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                lines++;
-                bytes += line.length();
-                String[] wordsArray = line.trim().split("\\s+");
-                words += wordsArray.length;
-            }
-
-            bufferedReader.close();
-            dumpResults();
-            output.close();
-        } catch (IOException e) {
-            System.err.println("Exception during writing to pipe: " + e.getMessage());
+        public void add(Counts other) {
+            lines += other.lines;
+            words += other.words;
+            bytes += other.bytes;
         }
-    }
 
-    private void dumpResults() throws IOException {
-        String result = String.format("%d %d %d", lines, words, bytes);
-        output.write(result.getBytes());
+        @Override
+        public String toString() {
+            return String.format("\t%d\t%d\t%d", lines, words, bytes);
+        }
     }
 }

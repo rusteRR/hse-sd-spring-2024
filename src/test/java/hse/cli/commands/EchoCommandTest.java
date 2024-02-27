@@ -36,6 +36,6 @@ class EchoCommandTest {
         } catch (IOException ignored) {
         }
 
-        assertEquals("123456", builder.toString());
+        assertEquals("123456\n", builder.toString());
     }
 }

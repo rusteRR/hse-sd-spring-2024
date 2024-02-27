@@ -14,4 +14,11 @@ public abstract class AbstractCommand implements Runnable {
         this.output = output;
     }
 
+    protected abstract int execute();
+
+    @Override
+    public void run() {
+        execute();
+    }
+
 }
