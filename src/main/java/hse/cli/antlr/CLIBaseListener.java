@@ -43,13 +43,13 @@ public class CLIBaseListener implements CLIListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(CLIParser.ProgramContext ctx) { }
+	@Override public void enterCommand(CLIParser.CommandContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(CLIParser.ProgramContext ctx) { }
+	@Override public void exitCommand(CLIParser.CommandContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

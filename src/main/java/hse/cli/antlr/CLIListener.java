@@ -30,15 +30,15 @@ public interface CLIListener extends ParseTreeListener {
 	 */
 	void exitToken(CLIParser.TokenContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CLIParser#program}.
+	 * Enter a parse tree produced by {@link CLIParser#command}.
 	 * @param ctx the parse tree
 	 */
-	void enterProgram(CLIParser.ProgramContext ctx);
+	void enterCommand(CLIParser.CommandContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CLIParser#program}.
+	 * Exit a parse tree produced by {@link CLIParser#command}.
 	 * @param ctx the parse tree
 	 */
-	void exitProgram(CLIParser.ProgramContext ctx);
+	void exitCommand(CLIParser.CommandContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CLIParser#surrArg}.
 	 * @param ctx the parse tree

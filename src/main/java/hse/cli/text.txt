@@ -1,0 +1,1 @@
+cat  aboba1 aboba2 | echo   bebra   |  SUS="Amo gus"
