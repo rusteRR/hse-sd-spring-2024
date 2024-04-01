@@ -13,8 +13,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class CLI {
-    private static InputStream input = System.in;
-    private static OutputStream output = System.out;
+    private static final InputStream input = System.in;
+    private static final OutputStream output = System.out;
 
     public static void main(String[] args) throws Exception {
         var lexer = new CLILexer(CharStreams.fromStream(input));
@@ -37,8 +37,7 @@ public class CLI {
         Manager.startThreadPool();
 
         var finalInputStream = Manager.startPipeline(commands);
-        if (finalInputStream != null) {
-            finalInputStream.transferTo(output);
-        }
+        finalInputStream.transferTo(System.out);
+        Manager.shutDown();
     }
 }

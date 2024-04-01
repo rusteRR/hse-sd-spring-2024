@@ -7,8 +7,9 @@ import java.util.stream.Collectors;
 import hse.cli.commands.*;
 
 public class CLIMainListener extends CLIBaseListener {
+    private List<Command> commands = new ArrayList<>();
 
-    private class Command {
+    private static class Command {
         public String name;
         public List<String> args;
 
@@ -18,46 +19,33 @@ public class CLIMainListener extends CLIBaseListener {
         }
 
         public AbstractCommand toAbstractCommand() {
-            AbstractCommand result;
-            switch (name) {
-                case "cat":
-                    result = new CatCommand((String[]) args.toArray(), null, null);
-                    break;
-                case "echo":
-                    result = new EchoCommand((String[]) args.toArray(), null, null);
-                    break;
-                case "exit":
-                    result = new ExitCommand((String[]) args.toArray(), null, null);
-                    break;
-                case "pwd":
-                    result = new PwdCommand((String[]) args.toArray(), null, null);
-                    break;
-                case "wc":
-                    result = new WcCommand((String[]) args.toArray(), null, null);
-                    break;
-                default:
-                    result = null;
-                    break;
-            }
-            return result;
+            return switch (name) {
+                case "cat" -> new CatCommand(args, null, null);
+                case "echo" -> new EchoCommand(args, null, null);
+                case "exit" -> new ExitCommand(args, null, null);
+                case "pwd" -> new PwdCommand(args, null, null);
+                case "wc" -> new WcCommand(args, null, null);
+                default -> new ExternalCommand(args, null, null);
+            };
         }
     }
 
-    private List<Command> commands = new ArrayList<>();
-
-    @Override public void enterInput(CLIParser.InputContext ctx) {
+    @Override
+    public void enterInput(CLIParser.InputContext ctx) {
         commands.clear();
     }
     
-    @Override public void enterCommand(CLIParser.CommandContext ctx) {
+    @Override
+    public void enterCommand(CLIParser.CommandContext ctx) {
         List<String> cmdArgs = new ArrayList<>();
-        for (Integer i = 0; i < ctx.surrArg().size(); ++i) {
+        cmdArgs.add(ctx.CommandName().getText());
+        for (int i = 0; i < ctx.surrArg().size(); ++i) {
             cmdArgs.add(ctx.surrArg(i).Arg().getText().trim());
         }
         commands.add(new Command(ctx.CommandName().getText(), cmdArgs));
     }
 
     public List<AbstractCommand> getCommands() {
-        return commands.stream().map(cmd -> cmd.toAbstractCommand()).collect(Collectors.toList());
+        return commands.stream().map(Command::toAbstractCommand).collect(Collectors.toList());
     }
 }

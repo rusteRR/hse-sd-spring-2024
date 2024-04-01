@@ -5,13 +5,14 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CatCommandTest {
     @Test
     public void readStdinTest() throws IOException {
-        String[] args = {};
+        List<String> args = List.of();
 
         PipedOutputStream output = new PipedOutputStream();
         PipedInputStream  input  = new PipedInputStream();

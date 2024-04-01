@@ -2,10 +2,11 @@ package hse.cli.commands;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.List;
 
 public class ExitCommand extends AbstractCommand {
 
-    public ExitCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
+    public ExitCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
         super(args, input, output);
     }
 

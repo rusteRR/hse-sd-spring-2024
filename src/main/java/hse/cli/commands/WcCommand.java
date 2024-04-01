@@ -1,19 +1,21 @@
 package hse.cli.commands;
 
 import java.io.*;
+import java.util.List;
 
 public class WcCommand extends AbstractCommand {
 
-    public WcCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
+    public WcCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
         super(args, input, output);
     }
 
     @Override
     protected int execute() {
         boolean failed = false;
-        if (arguments.length == 0) {
+        if (arguments.size() == 1) {
             try {
                 output.write((processStream(input) + "\n").getBytes());
+                output.close();
             } catch (IOException e) {
                 failed = true;
                 System.err.println("Exception during processing input: " + e.getMessage());
@@ -25,14 +27,16 @@ public class WcCommand extends AbstractCommand {
                     Counts curr = processStream(stream);
                     output.write((curr + String.format(" %s\n", arg)).getBytes());
                     total.add(curr);
+                    output.close();
                 } catch (IOException e) {
                     failed = true;
                     System.err.println("Exception during processing arguments: " + e.getMessage());
                 }
             }
-            if (arguments.length > 1) {
+            if (arguments.size() > 2) {
                 try {
                     output.write((total + " total\n").getBytes());
+                    output.close();
                 } catch (IOException e) {
                     failed = true;
                     System.err.println("Exception during processing arguments: " + e.getMessage());

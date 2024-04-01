@@ -1,15 +1,16 @@
 package hse.cli.commands;
 
+import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.nio.channels.Pipe;
+import java.util.List;
 
 public abstract class AbstractCommand implements Runnable {
-    protected final String[] arguments;
+    protected final List<String> arguments;
     protected PipedInputStream input;
     protected PipedOutputStream output;
 
-    public AbstractCommand(String[] args, PipedInputStream input, PipedOutputStream output) {
+    public AbstractCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
         this.arguments = args;
         this.input  = input;
         this.output = output;

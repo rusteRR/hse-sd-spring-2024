@@ -1,6 +1,7 @@
 package hse.manager;
 
 import java.io.*;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,22 +22,24 @@ public class Manager {
     }
 
     public static InputStream startPipeline(List<AbstractCommand> commands) throws IOException {
-        PipedInputStream previousInput = null;
+        PipedInputStream finalStream = new PipedInputStream();
+        PipedOutputStream prevOutput = new PipedOutputStream();
+        for (Iterator<AbstractCommand> iter = commands.iterator();;) {
+            AbstractCommand command = iter.next();
 
-        for (AbstractCommand command : commands) {
             PipedOutputStream output = new PipedOutputStream();
-            PipedInputStream input = new PipedInputStream(output);
+            PipedInputStream input = new PipedInputStream(prevOutput);
 
-            if (previousInput != null) {
-                command.setInputStream(previousInput);
-            }
-
+            command.setInputStream(input);
             command.setOutputStream(output);
-            previousInput = input;
+            prevOutput = output;
 
             executor.execute(command);
-        }
 
-        return previousInput;
+            if (!iter.hasNext()) {
+                prevOutput.connect(finalStream);
+                return finalStream;
+            }
+        }
     }
 }
