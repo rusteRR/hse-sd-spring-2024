@@ -21,10 +21,21 @@ public class Manager {
         }
     }
 
+    /**
+     * Starts the thread pool
+     */
     public static void startThreadPool() {
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
     }
 
+    /**
+     * Starts the execution of the pipeline in ThreadPool
+     * Every command is being executed in separated thread
+     * Threads communicate via PipeStream redirections
+     *
+     * @param commands - list of commands to execute in the pipeline
+     * @return resulting InputStream
+     */
     public static InputStream startPipeline(List<AbstractCommand> commands) throws IOException {
         PipedInputStream finalStream = new PipedInputStream();
         PipedOutputStream prevOutput = new PipedOutputStream();
