@@ -5,6 +5,9 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.List;
 
+/**
+ * This class provides an interface for custom commands implementation
+ */
 public abstract class AbstractCommand implements Runnable {
     protected final List<String> arguments;
     protected PipedInputStream input;

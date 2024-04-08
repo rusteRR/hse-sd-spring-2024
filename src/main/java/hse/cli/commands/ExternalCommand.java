@@ -3,6 +3,12 @@ package hse.cli.commands;
 import java.io.*;
 import java.util.List;
 
+/**
+ * ExternalCommand provides a way to call an external command
+ * from CLI.
+ * External commands are any commands, that does not have
+ * custom implementation in CLI
+ */
 public class ExternalCommand extends AbstractCommand {
     public ExternalCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
         super(args, input, output);

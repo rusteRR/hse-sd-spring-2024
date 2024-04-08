@@ -8,6 +8,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import hse.cli.commands.AbstractCommand;
 
+/**
+ * Manager maintains the orchestration of different commands in the current pipeline
+ * Also manager redirects the pipes from one command to another
+ */
 public class Manager {
     private static ThreadPoolExecutor executor;
 

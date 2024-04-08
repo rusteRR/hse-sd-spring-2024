@@ -3,6 +3,10 @@ package hse.cli.commands;
 import java.io.*;
 import java.util.List;
 
+/**
+ * Custom implementation of *nix like command echo
+ * Supports two types of input: both from files and stdin
+ */
 public class WcCommand extends AbstractCommand {
 
     public WcCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {

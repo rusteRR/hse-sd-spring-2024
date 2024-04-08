@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Custom implementation of *nix like command echo
+ */
 public class PwdCommand extends AbstractCommand {
 
     public PwdCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {

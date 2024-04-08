@@ -3,6 +3,9 @@ package hse.cli.commands;
 import java.io.*;
 import java.util.List;
 
+/**
+ * Custom implementation of *nix like command cat
+ */
 public class CatCommand extends AbstractCommand {
 
     public CatCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
