@@ -20,6 +20,7 @@ public class CLI {
             case "exit" -> new ExitCommand(args, null, null);
             case "pwd" -> new PwdCommand(args, null, null);
             case "wc" -> new WcCommand(args, null, null);
+            case "grep" -> new GrepCommand(args, null, null);
             default -> new ExternalCommand(args, null, null);
         };
     }
