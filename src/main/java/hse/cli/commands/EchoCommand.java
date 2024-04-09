@@ -1,8 +1,6 @@
 package hse.cli.commands;
 
-import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -10,21 +8,18 @@ import java.util.List;
  */
 public class EchoCommand extends AbstractCommand {
 
-    public EchoCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
+    public EchoCommand(List<String> args, InputStream input, OutputStream output) {
         super(args, input, output);
     }
 
     @Override
     public int execute() {
         try {
-            arguments.stream().skip(1).forEach(arg -> {
-                try {
-                    output.write(arg.getBytes());
-                    output.write(' ');
-                } catch (IOException ignored) {
-                }
-            });
-            output.write('\n');
+            for (int ind = 1; ind < arguments.size(); ind++) {
+                output.write(arguments.get(ind).getBytes());
+                if (ind != arguments.size() - 1) output.write(' ');
+                else output.write('\n');
+            }
             output.close();
         } catch (IOException e) {
             System.err.println("Exception during writing to pipe: " + e.getMessage());

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class WcCommand extends AbstractCommand {
 
-    public WcCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
+    public WcCommand(List<String> args, InputStream input, OutputStream output) {
         super(args, input, output);
     }
 

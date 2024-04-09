@@ -1,8 +1,6 @@
 package hse.cli.commands;
 
-import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
  */
 public class PwdCommand extends AbstractCommand {
 
-    public PwdCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
+    public PwdCommand(List<String> args, InputStream input, OutputStream output) {
         super(args, input, output);
     }
 

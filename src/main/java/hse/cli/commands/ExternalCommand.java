@@ -10,7 +10,7 @@ import java.util.List;
  * custom implementation in CLI
  */
 public class ExternalCommand extends AbstractCommand {
-    public ExternalCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
+    public ExternalCommand(List<String> args, InputStream input, OutputStream output) {
         super(args, input, output);
     }
 

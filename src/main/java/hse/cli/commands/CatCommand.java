@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class CatCommand extends AbstractCommand {
 
-    public CatCommand(List<String> args, PipedInputStream input, PipedOutputStream output) {
+    public CatCommand(List<String> args, InputStream input, OutputStream output) {
         super(args, input, output);
     }
 
