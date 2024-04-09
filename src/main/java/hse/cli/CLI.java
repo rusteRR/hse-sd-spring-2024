@@ -4,10 +4,7 @@ import hse.cli.commands.*;
 import hse.manager.Manager;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLI {
     private static final InputStream input = System.in;
@@ -16,8 +13,8 @@ public class CLI {
     private static final String commandRegex = "[a-zA-Z][a-zA-Z0-9_-]*";
     private static final String argRegex = "[a-zA-Z0-9_-]+";
 
-    private static AbstractCommand buildCommand(String name, List<String> args) {
-        return switch (name) {
+    private static AbstractCommand buildCommand(List<String> args) {
+        return switch (args.get(0)) {
             case "cat" -> new CatCommand(args, null, null);
             case "echo" -> new EchoCommand(args, null, null);
             case "exit" -> new ExitCommand(args, null, null);
@@ -32,9 +29,8 @@ public class CLI {
         for (String _token : line.split("\\|")) {
             String token = _token.trim();
             if (token.matches(String.format("(%s)(\\s+%s)", commandRegex, argRegex))) {
-                String[] cmd = token.split("\\s+");
-                String[] args = Arrays.copyOfRange(cmd, 1, cmd.length);
-                result.add(buildCommand(cmd[0], Arrays.asList(args)));
+                String[] args = token.split("\\s+");
+                result.add(buildCommand(Arrays.asList(args)));
             }
         }
         return result;
@@ -53,7 +49,7 @@ public class CLI {
                     finalInputStream.transferTo(output);
                     Manager.shutDown();
                 }
-            } catch (Exception e) {
+            } catch (NoSuchElementException e) {
                 return;
             }
         }
