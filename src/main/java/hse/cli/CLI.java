@@ -28,7 +28,7 @@ public class CLI {
         List<AbstractCommand> result = new ArrayList<>();
         for (String _token : line.split("\\|")) {
             String token = _token.trim();
-            if (token.matches(String.format("(%s)(\\s+%s)", commandRegex, argRegex))) {
+            if (token.matches(String.format("(%s)(\\s+%s)*", commandRegex, argRegex))) {
                 String[] args = token.split("\\s+");
                 result.add(buildCommand(Arrays.asList(args)));
             }
