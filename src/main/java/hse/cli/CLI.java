@@ -41,15 +41,16 @@ public class CLI {
     }
 
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(input);
         while (true) {
             try {
+                System.out.print('>');
                 List<AbstractCommand> commands = getCommands(scanner.nextLine());
                 if (!commands.isEmpty()) {
                     Manager.startThreadPool();
 
                     InputStream finalInputStream = Manager.startPipeline(commands);
-                    finalInputStream.transferTo(System.out);
+                    finalInputStream.transferTo(output);
                     Manager.shutDown();
                 }
             } catch (Exception e) {
