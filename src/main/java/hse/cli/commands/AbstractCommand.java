@@ -22,6 +22,11 @@ public abstract class AbstractCommand implements Runnable {
         this.input = newInput;
     }
 
+    public AbstractCommand withEnvironment(Map<String, String> environment) {
+        this.environment = environment;
+        return this;
+    }
+
     public void setOutputStream(OutputStream newOutput) {
         this.output = newOutput;
     }
