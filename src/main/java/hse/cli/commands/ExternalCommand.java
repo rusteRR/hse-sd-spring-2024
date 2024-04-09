@@ -17,9 +17,14 @@ public class ExternalCommand extends AbstractCommand {
     @Override
     public int execute() {
         try {
-            Process process = new ProcessBuilder(arguments).start();
+            ProcessBuilder pb = new ProcessBuilder(arguments);
+            pb.environment().putAll(environment);
+
+            Process process = pb.start();
             OutputStream stdin = process.getOutputStream();
+
             input.transferTo(stdin);
+
             InputStream stdout = process.getInputStream();
             stdout.transferTo(output);
         } catch (IOException e) {
