@@ -17,9 +17,13 @@ public class EchoCommand extends AbstractCommand {
     @Override
     public int execute() {
         try {
-            for (String arg : arguments) {
-                output.write(arg.getBytes());
-            }
+            arguments.stream().skip(1).forEach(arg -> {
+                try {
+                    output.write(arg.getBytes());
+                    output.write(' ');
+                } catch (IOException ignored) {
+                }
+            });
             output.write('\n');
             output.close();
         } catch (IOException e) {

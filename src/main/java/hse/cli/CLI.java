@@ -40,7 +40,7 @@ public class CLI {
         Scanner scanner = new Scanner(input);
         while (true) {
             try {
-                System.out.print('>');
+                System.out.print("> ");
                 List<AbstractCommand> commands = getCommands(scanner.nextLine());
                 if (!commands.isEmpty()) {
                     Manager.startThreadPool();
