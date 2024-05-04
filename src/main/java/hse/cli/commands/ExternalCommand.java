@@ -1,6 +1,7 @@
 package hse.cli.commands;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -17,11 +18,13 @@ public class ExternalCommand extends AbstractCommand {
     @Override
     public int execute() {
         try {
-            Process process = new ProcessBuilder(arguments).start();
+            File currentDirectory = Paths.get(System.getProperty("user.dir")).toFile();
+            Process process = new ProcessBuilder(arguments).directory(currentDirectory).start();
             OutputStream stdin = process.getOutputStream();
             input.transferTo(stdin);
             InputStream stdout = process.getInputStream();
             stdout.transferTo(output);
+//            output.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

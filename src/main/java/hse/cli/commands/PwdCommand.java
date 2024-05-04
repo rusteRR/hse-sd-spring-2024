@@ -16,7 +16,7 @@ public class PwdCommand extends AbstractCommand {
 
     @Override
     protected int execute() {
-        Path currentRelativePath = Paths.get("");
+        Path currentRelativePath = Paths.get(System.getProperty("user.dir"));
         String s = currentRelativePath.toAbsolutePath().toString();
         try {
             output.write((s + '\n').getBytes());
