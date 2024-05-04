@@ -24,7 +24,6 @@ public class ExternalCommand extends AbstractCommand {
             input.transferTo(stdin);
             InputStream stdout = process.getInputStream();
             stdout.transferTo(output);
-//            output.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
