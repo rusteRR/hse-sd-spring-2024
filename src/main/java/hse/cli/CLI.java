@@ -11,7 +11,7 @@ public class CLI {
     private static final OutputStream output = System.out;
 
     private static final String commandRegex = "[a-zA-Z][a-zA-Z0-9_-]*";
-    private static final String argRegex = "[a-zA-Z0-9_-]+";
+    private static final String argRegex = "[a-zA-Z0-9_\\-\\/.~]+";
 
     private static AbstractCommand buildCommand(List<String> args) {
         return switch (args.get(0)) {
@@ -20,6 +20,8 @@ public class CLI {
             case "exit" -> new ExitCommand(args, null, null);
             case "pwd" -> new PwdCommand(args, null, null);
             case "wc" -> new WcCommand(args, null, null);
+            case "cd" -> new CdCommand(args, null, null);
+            case "ls" -> new LsCommand(args, null, null);
             default -> new ExternalCommand(args, null, null);
         };
     }
